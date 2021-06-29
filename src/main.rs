@@ -3,7 +3,7 @@ extern crate clap;
 
 use std::{ops::Add, process::exit};
 
-use chrono::{offset::TimeZone, DateTime, Datelike, Duration, Local, NaiveDate};
+use chrono::{ NaiveDate, Datelike, Duration, Local};
 use clap::{App, Arg};
 
 /// Calcola i giorni lavorativi tra due date
@@ -18,7 +18,7 @@ use clap::{App, Arg};
 /// println!("{}", ferie);
 /// ```
 ///
-fn weekday_count(from: DateTime<Local>, to: DateTime<Local>) -> Duration {
+fn weekday_count(from: NaiveDate, to: NaiveDate) -> Duration {
     let mut today = from.add(Duration::days(1));
     let mut day_count = 0;
     loop {
@@ -59,7 +59,7 @@ fn main() {
         }
     };
 
-    let day_count = weekday_count(Local::now(), Local.from_local_date(&ferie).unwrap());
+    let day_count = weekday_count(Local::today().naive_local(),ferie);
 
     match format {
         "text" => println!("{}", day_count.num_days()),
