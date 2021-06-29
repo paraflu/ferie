@@ -20,13 +20,15 @@ use clap::{App, Arg};
 ///
 fn weekday_count(from: NaiveDate, to: NaiveDate) -> Duration {
     let mut today = from.add(Duration::days(1));
+    //println!("from {:?} to {:?}", today, to);
     let mut day_count = 0;
     loop {
+    //println!("{} {}", today, day_count);
         if today.weekday().number_from_monday() < 6 {
             day_count += 1;
         }
         today = today.add(Duration::days(1));
-        if today > to {
+        if today >= to {
             break;
         }
     }
