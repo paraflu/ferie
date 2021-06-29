@@ -20,10 +20,10 @@ use clap::{App, Arg};
 /// ```
 ///
 fn weekday_count(from: DateTime<Local>, to: DateTime<Local>) -> Duration {
-    let mut today = from;
+    let mut today = from.add(Duration::days(1));
     let mut day_count = 0;
     loop {
-        if today.weekday().number_from_monday() < 5 {
+        if today.weekday().number_from_monday() < 6 {
             day_count += 1;
         }
         today = today.add(Duration::days(1));
@@ -63,7 +63,7 @@ fn main() {
     let day_count = weekday_count(Local::now(), ferie);
 
     match format {
-        "text" => println!("{}d", day_count.num_days()),
+        "text" => println!("{}", day_count.num_days()),
         "json" => println!(r#"{{"days":{}}}"#, day_count.num_days(),),
         _ => exit(2),
     };
