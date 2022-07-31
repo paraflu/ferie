@@ -22,6 +22,9 @@ use clap::{App, Arg};
 fn weekday_count(from: DateTime<Local>, to: DateTime<Local>) -> Duration {
     let mut today = from.add(Duration::days(1));
     let mut day_count = 0;
+    if from > to {
+      return Duration::days(0);
+    }  
     loop {
         if today.weekday().number_from_monday() < 6 {
             day_count += 1;
@@ -48,7 +51,7 @@ fn main() {
         )
         .get_matches();
 
-    let ferie: DateTime<Local> = Local.ymd(2021, 07, 19).and_hms(4, 0, 0);
+    let ferie: DateTime<Local> = Local.ymd(2022, 07, 18).and_hms(4, 0, 0);
 
     let format = match matches.value_of("format").unwrap_or("text") {
         fmt @ "text" => fmt,
